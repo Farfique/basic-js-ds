@@ -115,28 +115,54 @@ module.exports = class BinarySearchTree {
       }
       else if (data == this.data){
         if (this.right === null && this.left === null){
-          if (data > this.parent.data){
-            this.parent.right = null;
+          if (this.parent !== null) {
+            if (data > this.parent.data){
+              this.parent.right = null;
+            }
+            else {
+              this.parent.left = null;
+            }
           }
           else {
-            this.parent.left = null;
+            this.data = null;
           }
+
         }
         else if (this.right === null && this.left !== null){
+          if (this.parent !== null){
             if (data > this.parent.data){
               this.parent.right = this.left;
             }
             else {
               this.parent.left = this.left;
             }
-        } 
-        else if( this.right !== null && this.left === null){
-          if (data > this.parent.data){
-            this.parent.right = this.right;
           }
           else {
-            this.parent.left = this.right;
+            let temp = this.left.data;
+            this.left.data = null;
+            this.right = this.left.right;
+            this.left = this.left.left;
+            this.data = temp;
           }
+            
+        } 
+        else if( this.right !== null && this.left === null){
+          if (this.parent !== null) {
+            if (data > this.parent.data){
+              this.parent.right = this.right;
+            }
+            else {
+              this.parent.left = this.right;
+            }
+          }
+          else {
+            let temp = this.right.data;
+            this.right.data = null;
+            this.left = this.right.left;
+            this.right = this.right.right;            
+            this.data = temp;
+          }
+
         }
         else if (this.right.left === null){
           this.data = this.right.data;
@@ -150,29 +176,6 @@ module.exports = class BinarySearchTree {
       }
 
 
-    }
-
-
-    if (this.data == data){
-      return true;
-    }
-    else if (data > this.data){
-      if (this.right instanceof BinarySearchTree){
-        return this.right.has(data);
-      }
-      else {
-        return false;
-      }
-      
-    }
-    else {
-      if (this.left instanceof BinarySearchTree){
-        return this.left.has(data);
-      }
-      else {
-        return false;
-      }
-      
     }
     
   }
